@@ -34,13 +34,6 @@ export default function About() {
                 >
                   Login
                 </button>
-                <button
-                    formAction={signup}
-                  type="submit"
-                  className="bg-orange-500 p-2 min-w-[130px] rounded-md block"
-                >
-                  Register
-                </button>
                 </div>
               </div>
               <div className="mt-5">
