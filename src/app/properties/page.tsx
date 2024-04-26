@@ -4,6 +4,8 @@ import moment from "moment";
 import { createClient } from "@/utils/supabase/server";
 import { logout } from "../auth/logout";
 import { getUser } from "@/utils/users";
+import PropertyForm from "./components/PropertyForm";
+import Link from "next/link";
 
 export default async function PrivatePage() {
   const supabase = createClient();
@@ -15,6 +17,18 @@ export default async function PrivatePage() {
   const { data: peroperty, error: err } = await supabase
     .from("tbl_properties")
     .select();
+
+  const createProperties = async (formData: FormData) => {
+      'use server'
+   
+      const rawFormData = {
+        customerId: formData.get('customerId'),
+        amount: formData.get('amount'),
+        status: formData.get('status'),
+      }
+   
+    }
+   
   
 
   return (
@@ -46,6 +60,9 @@ export default async function PrivatePage() {
           </div>
           <main className="py-4 border-t border-gray-600 mt-5">
             <div>
+            <Link href="?modal=true">
+                    <button type="button" className="bg-blue-500 text-white p-2">Open Modal</button>
+                </Link>
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -96,6 +113,7 @@ export default async function PrivatePage() {
                     })}
                   </tbody>
                 </table>
+                <PropertyForm />
               </div>
             </div>
           </main>
