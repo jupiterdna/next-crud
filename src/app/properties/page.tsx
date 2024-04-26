@@ -6,30 +6,26 @@ import { logout } from "../auth/logout";
 import { getUser } from "@/utils/users";
 import PropertyForm from "./components/PropertyForm";
 import Link from "next/link";
+import EditButton from "./components/DeleteButton";
 
 export default async function PrivatePage() {
   const supabase = createClient();
 
   const user = await getUser();
 
-  console.log("user", user)
 
   const { data: peroperty, error: err } = await supabase
     .from("tbl_properties")
-    .select();
+    .select(`*, tbl_users(fullname)`);
 
   const createProperties = async (formData: FormData) => {
       'use server'
-   
       const rawFormData = {
         customerId: formData.get('customerId'),
         amount: formData.get('amount'),
         status: formData.get('status'),
       }
-   
-    }
-   
-  
+  }
 
   return (
     <div className="h-screen">
@@ -61,9 +57,9 @@ export default async function PrivatePage() {
           <main className="py-4 border-t border-gray-600 mt-5">
             <div>
             <Link href="?modal=true">
-                    <button type="button" className="bg-blue-500 text-white p-2">Open Modal</button>
+                    <button type="button" className="text-white p-2 text-sm bg-orange-500  rounded-lg">Add Property</button>
                 </Link>
-              <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -72,6 +68,12 @@ export default async function PrivatePage() {
                       </th>
                       <th scope="col" className="px-6 py-3">
                         Property Name
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        User ID
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Added By
                       </th>
                       <th scope="col" className="px-6 py-3">
                         Created At
@@ -98,15 +100,19 @@ export default async function PrivatePage() {
                             {property.property_name}
                           </td>
                           <td className="px-6 py-4">
+                            {property.user_id}
+                          </td>
+                          <td className="px-6 py-4">
+                            {property.tbl_users.fullname}
+                          </td>
+                          <td className="px-6 py-4">
                             {moment(property.created_at).fromNow()}
                           </td>
                           <td className="px-6 py-4">
-                            <a
-                              href="#"
-                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                            >
-                              Edit
-                            </a>
+                            <form action="" className="flex flex-row items-center gap-x-2">
+                              <button className="text-blue-400">Edit</button>
+                              <EditButton id={property.id}/>
+                            </form>
                           </td>
                         </tr>
                       );
