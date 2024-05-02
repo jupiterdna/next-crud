@@ -111,10 +111,8 @@ export default async function PrivatePage() {
                             {moment(property.created_at).fromNow()}
                           </td>
                           <td className="px-6 py-4">
-                            <form action="" className="flex flex-row items-center gap-x-2">
                               <button className="text-blue-400">Edit</button>
                               <EditButton id={property.id}/>
-                            </form>
                           </td>
                         </tr>
                       );
