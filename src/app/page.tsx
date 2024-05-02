@@ -1,10 +1,13 @@
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from 'next/headers'
 
 export default async function Home() {
 
-  const supabase = createClient();
+  const cookieStore = cookies()
+
+  const supabase = createClient(cookieStore);
   const { data, error } = await supabase.auth.getUser()
 
 

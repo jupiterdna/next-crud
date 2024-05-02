@@ -7,9 +7,11 @@ import { getUser } from "@/utils/users";
 import PropertyForm from "./components/PropertyForm";
 import Link from "next/link";
 import EditButton from "./components/DeleteButton";
+import { cookies } from "next/headers";
 
 export default async function PrivatePage() {
-  const supabase = createClient();
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore);
 
   const user = await getUser();
 

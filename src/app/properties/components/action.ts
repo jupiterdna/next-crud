@@ -4,12 +4,12 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 
-const supabase = createClient()
 
 export async function submitForm(formData: FormData) {
-
-
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
   const property_name =formData.get('property_name') as string
   const description =formData.get('description') as string
 
@@ -27,6 +27,8 @@ export async function submitForm(formData: FormData) {
 }
 
 export const handleDelete = async (id: string) => { 
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
     const { error } = await supabase.from('tbl_properties').delete().eq('id', id)
     if (error) {
       console.error('error', error)
@@ -36,6 +38,8 @@ export const handleDelete = async (id: string) => {
 
 
   export const UpdateProperties = async (id: string) => { 
+    const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
     const { data, error } = await supabase.from('tbl_properties').update({ property_name: 'updated' }).eq('id', id)
     if (error) {
       console.error('error', error)

@@ -1,9 +1,10 @@
 import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
 
 
 export default async function About() {
-
-    const supabase = createClient();
+    const cookieStore = cookies()
+    const supabase = createClient(cookieStore);
 
     const { data: props } = await supabase.from("tbl_properties").select();
 
